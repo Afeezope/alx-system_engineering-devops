@@ -1,2 +1,2 @@
 #!/bin/bash
-whoami print efffective username
+groups to print all the groups the current user is part of
