@@ -1,3 +1,2 @@
-0x01-shell_permissions
+#!/bin/bash
 su betty switches the current user to user betty
-
