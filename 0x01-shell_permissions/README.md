@@ -1,1 +1,1 @@
-id -un to print effective username
+whoami to print effective username
