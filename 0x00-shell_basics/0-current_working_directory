@@ -1,4 +1,2 @@
-Script started, file is cat
-# f jjkjjh      ^[^[^[:q
-sh: 1: :q: not found
-# vi
+#!/bin/bash
+pwd
