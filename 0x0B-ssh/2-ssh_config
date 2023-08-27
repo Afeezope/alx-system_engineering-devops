@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# This script configure SSH for passwordless Authenticatication
+Host *
+IdentityFile ~/.ssh/school
+PasswordAuthentication no
