@@ -10,37 +10,19 @@ apt-get -y install haproxy
 # edit config file
 server_config=\
 "
-frontend hyproxy_balancer
-         bind *:80
-         mode http
-         default_backend back
-backend  back
-         balance roundrobin
-         server 215001-web-01 100.26.133.116:80 check
-         server 215001-web-02 100.26.121.54:80 check
+frontend  haproxy_balancer 
+        bind *:80
+        mode http
+        default_backend back
+backend back
+        balance roundrobin
+        server 215001-web-01 100.26.133.116:80 check
+        server 215001-web-02 100.26.121.54:80 check
 "
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
-# Define the HAProxy configuration file path
-haproxy_cfg="/etc/haproxy/haproxy.cfg"
+# enable haproxy to be started by init script
 
-# Append server configuration to the HAProxy configuration file
-if ! grep -q "frontend haproxy_balancer" "$haproxy_cfg"; then
-    echo "$server_config" | sudo tee -a "$haproxy_cfg" > /dev/null
-    echo "Server configuration appended to $haproxy_cfg"
-else
-    echo "Server configuration already exists in $haproxy_cfg"
-fi
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
-# Enable HAProxy to be started by init script
-echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
-
-# Validate the HAProxy configuration
-sudo haproxy -c -f "$haproxy_cfg"
-
-if [ $? -eq 0 ]; then
-    # Restart HAProxy if the configuration is valid
-    sudo systemctl restart haproxy
-    echo "HAProxy restarted successfully"
-else
-    echo "HAProxy configuration validation failed. Please check your configuration."
-fi
+sudo service haproxy restart
