@@ -1,17 +1,46 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Create a script to install and configure HAProxy on lb-01 server
+# Configure HAProxy to send traffic to web-01 and web-02 servers
+# Distribute requests using a roundrobin algorithm
+# Make sure that HAProxy can be managed via an init script
+# Install and configure HAproxy on my lb-01 server.
+sudo apt-get -y update
+apt-get -y install haproxy
 
-# Update the system
-sudo apt update
+# edit config file
+server_config=\
+"
+frontend hyproxy_balancer
+         bind *:80
+         mode http
+         default_backend back
+backend  back
+         balance roundrobin
+         server 215001-web-01 100.26.133.116:80 check
+         server 215001-web-02 100.26.121.54:80 check
+"
 
-# Install HAProxy
-sudo apt install haproxy
+# Define the HAProxy configuration file path
+haproxy_cfg="/etc/haproxy/haproxy.cfg"
 
-# Configure HAProxy as per the provided configuration file
+# Append server configuration to the HAProxy configuration file
+if ! grep -q "frontend haproxy_balancer" "$haproxy_cfg"; then
+    echo "$server_config" | sudo tee -a "$haproxy_cfg" > /dev/null
+    echo "Server configuration appended to $haproxy_cfg"
+else
+    echo "Server configuration already exists in $haproxy_cfg"
+fi
 
-# Create and configure the init script for HAProxy
+# Enable HAProxy to be started by init script
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
 
-# Configure server hostnames
+# Validate the HAProxy configuration
+sudo haproxy -c -f "$haproxy_cfg"
 
-# Restart HAProxy
-sudo service haproxy restart
-
+if [ $? -eq 0 ]; then
+    # Restart HAProxy if the configuration is valid
+    sudo systemctl restart haproxy
+    echo "HAProxy restarted successfully"
+else
+    echo "HAProxy configuration validation failed. Please check your configuration."
+fi
