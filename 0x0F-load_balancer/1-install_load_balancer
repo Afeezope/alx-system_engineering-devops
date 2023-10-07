@@ -11,9 +11,9 @@ sudo apt-get -y install haproxy
 # Configure haproxy configuration file to distribute requests using a roundrobin algorithm
 
 echo '
-frontend  feesoconnect.tech 
+frontend  feesoconnect.tech
         bind *:80
-	mode http
+        mode http
         default_backend feesoconnect.tech_backend
 
 backend default_backend feesoconnect.tech_backend
