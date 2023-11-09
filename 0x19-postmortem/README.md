@@ -20,6 +20,8 @@ Timeline (all times in GMT + 1)
 - 10:22 AM: 100% of traffic restored online
 
 Root Cause Analysis
+![image](https://github.com/Afeezope/alx-system_engineering-devops/assets/93836047/e9223d98-d5e0-4be2-83d0-5face6f343d6)
+
 The incident originated at 9:45 am (GMT + 1) when server upgrades were initiated without prior deployment to test environments and comprehensive unit testing. One component of the upgrade required authentication from a third-party software, and this new implementation was incompatible with the current server version, resulting in the widespread downtime experienced by our clients. The swift resolution involved rolling back to the previous server state and subsequently upgrading to a compatible version. 
 
 Preventive Measures
