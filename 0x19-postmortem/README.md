@@ -1,4 +1,5 @@
-![incident mgt](https://github.com/Afeezope/alx-system_engineering-devops/assets/93836047/d32ca398-4c78-447f-8c0a-b1d9435c7449)
+![Incident MANAGEMENT](https://github.com/Afeezope/alx-system_engineering-devops/assets/93836047/6a6eaf27-f527-4bbc-91a4-49ddb665c25d)
+
 
 # Server Outage Incident Report
 Date: November 9, 2023
